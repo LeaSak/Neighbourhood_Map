@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neighbourhood Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <style>
+        /*map container height takes height of body*/
+      #map {
+        height: 50%;
+      }
+      /* Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="poi-box">
+        <ul data-bind="foreach: initialPOIList">
+            <li data-bind="text:name, click: $parent.clickEvent"></li>
+        </ul>
+    </div>
+    <!-- <div id="poi-box">
+        <ul data-bind="foreach: markerArray">
+            <li data-bind="text:title, click: $parent.click"></li>
+        </ul>
+    </div> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script src ="js/data.js"></script>
+<script src="js/map.js"></script>
+<script src="js/viewmodel.js"></script>
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=app.initMap">
+    </script>
+</body>
+</html>
