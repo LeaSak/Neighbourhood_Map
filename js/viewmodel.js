@@ -8,7 +8,7 @@ var app = app || {};
         var Attraction = function(data){
             this.name = ko.observable(data.name);
             this.locations = ko.observable(data.locations);
-            this.marker = "";
+            this.visible = ko.observable(true);
         };
 
         /*
@@ -25,8 +25,29 @@ var app = app || {};
                 self.initialPOIList.push(new Attraction(attraction));
             });
 
+            // Make filter input observable
+            this.filterInput = ko.observable("");
+
+            //return search results for listings
+            self.filteredItems = ko.computed(function(){
+                var filterText = self.filterInput().toLowerCase();
+                if(!filterText){
+                    return self.initialPOIList();
+                } else {
+                    return ko.utils.arrayFilter(self.initialPOIList(), function(attraction){
+                        var match = attraction.name().toLowerCase().indexOf(filterText) >= 0;
+                        if (match && attraction.visible()){
+                            attraction.marker.setVisible(true);
+                            return match;
+                        } else {
+                            attraction.marker.setVisible(false);
+                        }
+                    });
+            }
+        }, self);
+
             // bounce target when link is clicked
-            this.bounceTarget = function(obj){
+            this.targetResponse = function(obj){
                 var pin = obj.marker;
                 app.getInfoWindowContent(pin, app.vm.infoWindow);
                 app.toggleBounce(pin);

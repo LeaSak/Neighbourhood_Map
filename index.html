@@ -19,9 +19,15 @@
 </head>
 <body>
     <div id="map"></div>
+    <form role="search">
+        <div>
+            <input data-bind="textInput: filterInput" type="search" id="search-box" placeholder="Filter featured destinations" aria-label="Search through site content" size="40" autocomplete="off">
+            <!-- <button id="search-btn">Filter</button> -->
+        </div>
+    <form>
     <div id="poi-box">
         <ul data-bind="foreach: initialPOIList">
-            <li data-bind="text:name, click: $parent.bounceTarget"></li>
+            <li data-bind="text:name, click: $parent.targetResponse, visible: visible"></li>
         </ul>
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>

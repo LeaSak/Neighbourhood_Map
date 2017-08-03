@@ -21,9 +21,9 @@ var app = app || {};
             zoom: 13
         });
 
-        //create a marker for each location
+        //create a marker for each location in the filtered items array
         //attach marker to attraction object
-        app.vm.initialPOIList().forEach(function(attraction, index) {
+        app.vm.filteredItems().forEach(function(attraction, index) {
             var marker = new google.maps.Marker({
                 position: attraction.locations(),
                 map: app.vm.map,
