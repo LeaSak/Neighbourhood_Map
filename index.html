@@ -19,20 +19,19 @@
 </head>
 <body>
     <div id="map"></div>
-    <form role="search">
+    <!-- <form role="search">
         <div>
             <input data-bind="textInput: filterInput" type="search" id="search-box" placeholder="Filter featured destinations" aria-label="Search through site content" size="40" autocomplete="off">
-            <!-- <button id="search-btn">Filter</button> -->
         </div>
-    <form>
+    <form> -->
     <div id="poi-box">
         <ul data-bind="foreach: initialPOIList">
-            <li data-bind="text:name, click: $parent.targetResponse, visible: visible"></li>
+            <li data-bind="text:name"></li>
         </ul>
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
 <script src ="js/data.js"></script>
-<script src="js/map.js"></script>
+<!-- <script src="js/map.js"></script> -->
 <script src="js/viewmodel.js"></script>
 <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=app.initMap">

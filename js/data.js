@@ -1,6 +1,4 @@
-var app = app || {};
-
-(function(){
+(function(app, undefined){
     'use strict';
         /*
          * Stores data for Map Markers
@@ -86,4 +84,4 @@ var app = app || {};
             }
 
         ];
-})();
+})(window.app = window.app || {});
