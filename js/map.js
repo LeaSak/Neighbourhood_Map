@@ -1,74 +1,86 @@
-var app = app || {};
+// (function(app, undefined) {
+//     'use strict';
 
-(function() {
-    'use strict';
+//     // declare map as global variable
+//     var map;
 
-    app.initMap = function() {
-        console.log("initMap");
-        var mapElem = document.getElementById('map');
-        //create google map and append it to the page
-        var vienna = { lat: 48.2082, lng: 16.3738 };
-        // declare bounds of map
-        var bounds = new google.maps.LatLngBounds();
-        // create one info window for all markers
-        app.vm.infoWindow = new google.maps.InfoWindow({
-            maxWidth: 250
-        });
+//     app.mapView = {
+//         init: function() {
+//             console.log('initMap');
+//             // define variables
+//             this.mapElem = document.getElementById('map');
+//             // center of map is in Vienna, Austria
+//             this.center = { lat: 48.2082, lng: 16.3738 };
+//             // declare bounds of map
+//             this.bounds = new google.maps.LatLngBounds();
+//             //create one info window for all markers
+//             this.infowindow = new google.maps.InfoWindow({
+//                 maxWidth: 250
+//             });
 
-        // Constructor creates a new map - only center and zoom are required.
-        app.vm.map = new google.maps.Map(mapElem, {
-            center: vienna,
-            zoom: 13
-        });
+//             // envoke below functions
+//             this.renderMap();
+//             this.createMarkers();
 
-        //create a marker for each location in the filtered items array
-        //attach marker to attraction object
-        app.vm.filteredItems().forEach(function(attraction, index) {
-            var marker = new google.maps.Marker({
-                position: attraction.locations(),
-                map: app.vm.map,
-                title: attraction.name(),
-                animation: google.maps.Animation.DROP,
-                id: index
-            });
-            attraction.marker = marker;
-            marker.addListener('click', function() {
-                app.getInfoWindowContent(this, app.vm.infoWindow);
-                app.toggleBounce(this);
-            });
-            bounds.extend(marker.position); // adjust boundaries for each location
-        });
+//             //followed by calls to ko.View Model
+//             // Assign View Model to a variable
+//             var vm = new app.ViewModel();
+//             ko.applyBindings(vm);
 
-        //Extend the boundaries of the map for each marker
-        app.vm.map.fitBounds(bounds);
+//         },
+//         renderMap: function() {
+//             map = new google.maps.Map(this.mapElem, {
+//                 center: this.center,
+//                 zoom: 13
+//             });
+//         },
+//         createMarkers: function() {
+//             var marker;
+//             var self = this;
+//             app.initialPOI.forEach(function(attraction) {
+//                 marker = new google.maps.Marker({
+//                     position: new google.maps.LatLng(
+//                         attraction.location.lat,
+//                         attraction.location.lng),
+//                     map: map,
+//                     title: attraction.name,
+//                     animation: google.maps.Animation.DROP,
+//                 });
+//                 // assign marker to attraction
+//                 attraction.marker = marker;
+//                 // adjust boundaries for each location
+//                 this.bounds.extend(marker.position);
+//                 // Extend the boundaries of the map for each marker
+//                 map.fitBounds(this.bounds);
 
-        //show info window;
+//                 //add event listener to marker
+//                 marker.addListener('click', function() {
+//                     self.getInfoWindowContent(attraction);
+//                     self.toggleBounce(attraction);
+//                 });
 
-    };
+//             }, app.mapView);
 
-    // Make markers bounce;
-    // callback function
-    app.toggleBounce = function(marker) {
-        if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-        } else {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function() {
-                marker.setAnimation(null)
-            }, 1500);
-        }
-    }
+//         },
+//         toggleBounce: function(attraction){
+//             if (attraction.marker.getAnimation() !== null) {
+//                     attraction.marker.setAnimation(null);
+//                 } else {
+//                     attraction.marker.setAnimation(google.maps.Animation.BOUNCE);
+//                     setTimeout(function() {
+//                         attraction.marker.setAnimation(null);
+//                     }, 1500);
+//                 }
+//         },
+//         getInfoWindowContent: function(attraction) {
+//             self = this;
+//             this.infowindow.marker = attraction.marker;
+//             this.infowindow.setContent('<div>' + attraction.marker.title + '</div>');
+//             this.infowindow.open(map, attraction.marker);
+//             this.infowindow.addListener('closeclick', function() {
+//                 self.infowindow.setMarker = null;
+//                 });
+//         }
+//     }
 
-    // Assign marker to infowindow marker property
-    // Add marker specific content to info window
-    // clear marker content on close
-    app.getInfoWindowContent = function(marker, infowindow){
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
-          infowindow.open(app.vm.map, marker);
-          infowindow.addListener('closeclick',function(){
-            infowindow.setMarker = null;
-          });
-  };
-
-})();
+// })(window.app = window.app || {});
