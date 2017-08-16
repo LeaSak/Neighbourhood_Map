@@ -21,12 +21,12 @@
     <div id="map"></div>
     <form role="search">
         <div>
-            <input data-bind="textInput: searchTerm" type="search" id="search-box" placeholder="Filter featured destinations" aria-label="Search through site content" size="40" autocomplete="off">
+            <input data-bind="textInput: searchTerm" type="search" id="search-box" placeholder="Filter featured destinations" aria-label="Search through site content" size="40">
         </div>
     <form>
     <div id="poi-box">
         <ul data-bind="foreach: filteredItems">
-            <li data-bind="text:name, click: $parent.revealLocation"></li>
+            <li data-bind="text:$data.name, click: $parent.revealLocation"></li>
         </ul>
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>

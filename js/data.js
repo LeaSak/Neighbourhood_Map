@@ -10,7 +10,8 @@
                 location: {
                     lat: 48.214209,
                     lng: 16.377812
-                }
+                },
+                foursquareId: '4bf58dd8d48988d193941735'
             },
             {
                 name: 'Haus des Meeres',

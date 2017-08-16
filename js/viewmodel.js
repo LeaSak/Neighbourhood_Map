@@ -25,6 +25,8 @@
             zoom: 13
         });
 
+        var transitLayer = new google.maps.TransitLayer();
+        transitLayer.setMap(map);
         //create one info window for all markers
         var infowindow = new google.maps.InfoWindow({
             maxWidth: 250
@@ -32,14 +34,16 @@
 
         // create a marker for each location
         // attach marker to attraction object
-        app.initialPOI.forEach(function(attraction) {
+        vm.filteredItems().forEach(function(attraction) {
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(
                     attraction.location.lat,
                     attraction.location.lng),
-                    map: map,
-                title: attraction.name,
+                map: map,
+                title: attraction.name(),
                 animation: google.maps.Animation.DROP,
+                gestureHandling: 'cooperative',
+                scrollwheel: false
             });
             // assign marker to attraction
             attraction.marker = marker;
@@ -48,7 +52,7 @@
             // Extend the boundaries of the map for each marker
             map.fitBounds(bounds);
 
-            // add event listener to marker
+            //add event listener to marker
             marker.addListener('click', function() {
                 getInfoWindowContent();
                 toggleBounce();
@@ -77,16 +81,11 @@
             };
 
         });
-
-        // // Assign View Model to a variable
-        var vm = new ViewModel();
-        ko.applyBindings(vm);
-
     };
 
     // Google maps load error
     app.mapError = function(){
-        alert('Google Maps failed to load. Please reload the page.');
+        console.log('Google Maps failed to load. Please reload the page.');
     }
 
     /*
@@ -95,8 +94,11 @@
      */
     var Attraction = function(data) {
         this.name = ko.observable(data.name);
-        this.location = data.location;
-        this.marker = data.marker;
+        this.location = {
+            lat: data.location.lat,
+            lng: data.location.lng
+        }
+        this.marker = '';
     };
 
     /*
@@ -110,6 +112,8 @@
         this.attractionList = ko.observableArray(ko.utils.arrayMap(app.initialPOI, function(attraction) {
             return new Attraction(attraction);
         }));
+
+        console.log(this.attractionList()[0]);
 
         // make input field an observable
         this.searchTerm = ko.observable('');
@@ -125,7 +129,9 @@
         var filterText = this.searchTerm().toLowerCase();
              return ko.utils.arrayFilter(this.attractionList(), function(attraction) {
                 if (attraction.name().toLowerCase().indexOf(filterText) >= 0) {
-                    attraction.marker.setVisible(true);
+                    if (attraction.marker){
+                        attraction.marker.setVisible(true);
+                    }
                     return true;
                 } else {
                     attraction.marker.setVisible(false);
@@ -137,5 +143,9 @@
     ViewModel.prototype.revealLocation = function(attraction){
         google.maps.event.trigger(attraction.marker, 'click');
     }
+
+    // // Assign View Model to a variable
+        var vm = new ViewModel();
+        ko.applyBindings(vm);
 
 })(window.app = window.app || {});
