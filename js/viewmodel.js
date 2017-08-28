@@ -15,7 +15,7 @@
         this.postalCode = data.postalCode;
         this.city = 'Vienna';
         this.hours = '';
-        this.url = data.url;
+        this.url = ko.observable(data.url);
         this.foursquareID = data.foursquareID;
         this.marker = '';
     };
@@ -45,6 +45,9 @@
             new Section("Map", "mapView")
         ]);
 
+        // Set Map as default open tab
+        self.chosenTab(self.sections()[1]);
+
         //set click target as current chosen object/tab
         self.activateSection = function(tab) {
             self.chosenTab(tab);
@@ -65,16 +68,24 @@
             return element === self.chosenTab().id;
         }
 
-        //switch to map
+        // switch to map
         self.openMap = function(attraction) {
-            self.activateSection(self.sections()[1]);
-            google.maps.event.trigger(attraction.marker, 'click');
+                self.activateSection(self.sections()[1]);
+                google.maps.event.trigger(attraction.marker, 'click');
         }
 
+        // Map Elem observable
+        // Used for error messaging;
+        self.mapElem = ko.observable(true);
 
-        // Set Map as default open tab
-        self.chosenTab(self.sections()[1]);
+        self.errorMessage = function() {
+            return (self.mapElem() === false) ? true : false;
+        }
 
+        // set link according to map elem status
+        self.getUrl = function(venue) {
+            return self.mapElem() ? '#' : venue.url();
+        }
 
         /*
          * Content View Model

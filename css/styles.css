@@ -117,9 +117,13 @@ section,
 .content {
     padding: 1em;
     background-color: #fffdf8;
-    color: #badae2;
     border-radius: 10px;
     border-top-left-radius: 0;
+    display: none;
+}
+
+.reveal {
+    display: block;
 }
 
 /* Search styles*/
@@ -182,7 +186,6 @@ section,
 
 .infowindow-text {
     width: 100%;
-    color: black;
     padding: 10px;
 }
 
@@ -229,6 +232,13 @@ section,
 .foursquare-img {
     width: 100%;
     max-width: 100%;
+}
+
+/*Error Box*/
+.error-box {
+    padding: 5em;
+    text-align: center;
+    color: black;
 }
 
 @media screen and (min-width: 400px) {

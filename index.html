@@ -21,7 +21,7 @@
         <!-- Tab Content -->
         <section>
             <!-- Venue Content -->
-            <article id="venueView" class="content" data-bind="visible: showContent($element.id)">
+            <article id="venueView" class="content" data-bind="css: {reveal: showContent($element.id)}">
                 <div class="row">
                     <div class="col-one">
                         <form class="search-container">
@@ -33,16 +33,24 @@
                 <div class="row">
                     <div class="col-one">
                         <ul data-bind="foreach: $root.filteredItems" class="venue-list">
-                            <li data-bind="text:$data.name, click: $root.openMap" class="list-item box"></li>
+                            <li class="list-item box">
+                                <!-- https://stackoverflow.com/questions/18970244/conditional-click-binding-with-knockout -->
+                                <a data-bind="text:$data.name, click: $root.mapElem() ? $root.openMap : null, attr:{href: $root.getUrl($data)}"></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </article>
             <!-- Map Content -->
-            <article id="mapView" class="content map-article" data-bind="visible: showContent($element.id)">
+            <article id="mapView" class="content map-article" data-bind="css: {reveal: showContent($element.id)}">
                 <div class="row map-row">
                     <div class="col-one map-col">
-                        <div id="map"></div>
+                        <div id="map" data-bind="visible:$root.mapElem">
+                        </div>
+                        <div class="error-box box" data-bind="visible:$root.errorMessage">
+                            <h1>Google Maps cannot be loaded</h1>
+                            <p>In the meantime, feel free to click the venues tab for venue details.</p>
+                        </div>
                     </div>
                 </div>
             </article>

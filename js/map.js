@@ -96,7 +96,7 @@ function populateInfoWindow(marker, infowindow, venue) {
             async: true
         },
         success: function(data) {
-            var url = data.response.venue.canonicalUrl + '?' + foursquareClientID || venue.url;
+            var url = data.response.venue.canonicalUrl + '?' + foursquareClientID || venue.url();
             var name = data.response.venue.name || venue.name;
             var street = data.response.venue.location.address || venue.address;
             var postalCode = data.response.venue.location.postalCode || venue.postalCode;
@@ -116,7 +116,7 @@ function populateInfoWindow(marker, infowindow, venue) {
         error: function() {
             console.log(venue);
             var htmlString = '<article class="infowindow-text">' +
-                '<h1><a class="venue-link" href=' + venue.url + '>' + venue.name + '</a></h1>' +
+                '<h1><a class="venue-link" href=' + venue.url() + '>' + venue.name + '</a></h1>' +
                 '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
                 '<address>' + venue.address + ', ' + venue.postalCode + ' ' +
                 venue.city + '</address></div></article>';
@@ -128,5 +128,5 @@ function populateInfoWindow(marker, infowindow, venue) {
 
 // Google maps load error
 function mapError() {
-    console.log('Google Maps failed to load. Please reload the page.');
+    app.vm.mapElem(false);
 }
