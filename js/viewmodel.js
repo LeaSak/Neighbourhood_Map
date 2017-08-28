@@ -1,162 +1,6 @@
 (function(app, undefined) {
     'use strict';
 
-    /* Global variables
-     *
-     */
-    var map;
-
-    // public method
-    // callback in Google Maps API request
-    // what the map first looks like when it loads
-    // adds markers to the view model
-
-    app.initMap = function() {
-        console.log("initMap");
-        var mapElem = document.getElementById('map');
-        //create google map and append it to the page
-        var vienna = { lat: 48.2082, lng: 16.3738 };
-        // declare bounds of map
-        var bounds = new google.maps.LatLngBounds();
-
-        // Constructor creates a new map - only center and zoom are required.
-        map = new google.maps.Map(mapElem, {
-            center: vienna,
-            zoom: 13
-        });
-
-        var transitLayer = new google.maps.TransitLayer();
-        transitLayer.setMap(map);
-
-        //create one info window for all markers
-        var infowindow = new google.maps.InfoWindow({
-            maxWidth: 250
-        });
-
-        // create a marker for each location
-        // attach marker to attraction object
-        // define click events on marker
-        vm.filteredItems().forEach(function(attraction) {
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(
-                    attraction.location.lat,
-                    attraction.location.lng),
-                map: map,
-                title: attraction.name,
-                animation: google.maps.Animation.DROP,
-                gestureHandling: 'cooperative',
-                //scrollwheel: false
-            });
-            // assign marker to attraction
-            attraction.marker = marker;
-            // adjust boundaries for each location
-            bounds.extend(marker.position);
-            // Extend the boundaries of the map for each marker
-            map.fitBounds(bounds);
-
-            //add event listener to marker
-            marker.addListener('click', function() {
-                toggleBounce();
-                getInfoWindowContent();
-            });
-
-            // toggle Bounce marker with setTimeout
-            function toggleBounce() {
-                if (attraction.marker.getAnimation() !== null) {
-                    attraction.marker.setAnimation(null);
-                } else {
-                    attraction.marker.setAnimation(google.maps.Animation.BOUNCE);
-                    setTimeout(function() {
-                        attraction.marker.setAnimation(null);
-                    }, 1500);
-                }
-            }
-
-            // get infowindow content
-            function getInfoWindowContent() {
-                infowindow.marker = attraction.marker;
-                setVenueContent();
-                infowindow.open(map, attraction.marker);
-                infowindow.addListener('closeclick', function() {
-                    infowindow.setMarker = null;
-                });
-            };
-
-            // create infowindow string
-            function getInfoString(){
-                var contentArray = [];
-
-                var foursquareString = '<article class="infowindow-text">' +
-                            '<h1><a class="venue-link" href=' + attraction.url + '>' +
-                            attraction.name + '</a></h1>' +
-                            '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
-                            '<address>' + attraction.address + ', ' + attraction.postalCode + ' ' +
-                            attraction.city + '</address></div>' +
-                            '<div class="time-box"><i class="fa fa-clock-o" aria-hidden="true"></i>' +
-                            '<p> Today: ' + attraction.hours + '</p></div>' +
-                            '<div class="image-box"><img class="foursquare-img" src="foursquare.png"></div></article>';
-
-                var dataModelString = '<article class="infowindow-text">' +
-                            '<h1><a class="venue-link" href=' + attraction.url + '>' +
-                            attraction.name + '</a></h1>' +
-                            '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
-                            '<address>' + attraction.address + ', ' + attraction.postalCode + ' ' +
-                            attraction.city + '</address></div></article>';
-
-                contentArray.push(foursquareString, dataModelString);
-
-                            return contentArray;
-            }
-
-            // update venue information in DOM
-            function setVenueContent() {
-                var foursquareClientID = 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0';
-                var foursquareClientSecret = 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X';
-                var foursquareVersion = '20170801';
-                var foursquareURL_venue = 'https://api.foursquare.com/v2/venues/' + attraction.foursquareID;
-
-                $.ajax({
-                    url: foursquareURL_venue,
-                    dataType: "jsonp",
-                    data: {
-                        client_id: 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0',
-                        client_secret: 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X',
-                        v: '20170801',
-                        async: true
-                    },
-                    success: function(data){
-                        console.log(data.response.venue);
-                        attraction.url = data.response.venue.canonicalUrl + '?' + foursquareClientID;
-                        attraction.name = data.response.venue.name || attraction.name;
-                        attraction.address = data.response.venue.location.address || attraction.address;
-                        attraction.postalCode = data.response.venue.location.postalCode || attract.postalCode;
-                        attraction.city = data.response.venue.location.city || attraction.city;
-                        attraction.hours = data.response.venue.popular.timeframes[0].open[0].renderedTime || 'Unknown';
-                        var html = getInfoString()[0];
-                        infowindow.setContent(html);
-                    },
-                    error: function(){
-                        var html = getInfoString()[1]
-                        infowindow.setContent(html);
-                    }
-                });
-            }
-
-        });
-
-        //resize map, tell it to redraw when window is resized
-        google.maps.event.addDomListener(window, 'resize', function() {
-            var center = map.getCenter();
-            google.maps.event.trigger(map, 'resize');
-            map.setCenter(center);
-        });
-    };
-
-    // Google maps load error
-    app.mapError = function() {
-        console.log('Google Maps failed to load. Please reload the page.');
-    }
-
     /*
      * Attraction Class constructor
      * Gets properties from Model
@@ -167,11 +11,11 @@
             lat: data.location.lat,
             lng: data.location.lng
         }
-        this.address = '';
-        this.postalCode = '';
+        this.address = data.address;
+        this.postalCode = data.postalCode;
         this.city = 'Vienna';
-        this.phone = '';
-        this.url = '';
+        this.hours = '';
+        this.url = data.url;
         this.foursquareID = data.foursquareID;
         this.marker = '';
     };
@@ -187,7 +31,7 @@
      *
      */
     var ViewModel = function() {
-        console.log("ViewModel");
+        console.log('View Model');
         var self = this;
 
         /*
@@ -241,8 +85,6 @@
             return new Attraction(attraction);
         }));
 
-        //console.log(this.attractionList()[0]);
-
         // make input field an observable
         this.searchTerm = ko.observable('');
 
@@ -268,7 +110,7 @@
     }
 
     // // Assign View Model to a variable
-    var vm = new ViewModel();
-    ko.applyBindings(vm);
+    app.vm = new ViewModel();
+    ko.applyBindings(app.vm);
 
 })(window.app = window.app || {});

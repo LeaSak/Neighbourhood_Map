@@ -11,6 +11,9 @@
                     lat: 48.214209,
                     lng: 16.377812
                 },
+                address: 'Lilienbrunngasse 7-9',
+                postalCode: '1020',
+                url: 'http://www.dianabad.at/',
                 foursquareID: '4c8df3ce58668cfa9a96cdec'
             },
             {
@@ -19,6 +22,9 @@
                     lat: 48.197695,
                     lng: 16.352924
                 },
+                address: 'Fritz-Grünbaum-Platz 1',
+                postalCode: '1060',
+                url: 'https://www.haus-des-meeres.at/en/Home.htm',
                 foursquareID: '4b7cf243f964a52002aa2fe3'
             }
             // {
