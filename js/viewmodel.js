@@ -27,6 +27,7 @@
 
         var transitLayer = new google.maps.TransitLayer();
         transitLayer.setMap(map);
+
         //create one info window for all markers
         var infowindow = new google.maps.InfoWindow({
             maxWidth: 250
@@ -41,10 +42,10 @@
                     attraction.location.lat,
                     attraction.location.lng),
                 map: map,
-                title: attraction.name(),
+                title: attraction.name,
                 animation: google.maps.Animation.DROP,
                 gestureHandling: 'cooperative',
-                scrollwheel: false
+                //scrollwheel: false
             });
             // assign marker to attraction
             attraction.marker = marker;
@@ -55,8 +56,8 @@
 
             //add event listener to marker
             marker.addListener('click', function() {
-                getInfoWindowContent();
                 toggleBounce();
+                getInfoWindowContent();
             });
 
             // toggle Bounce marker with setTimeout
@@ -71,18 +72,41 @@
                 }
             }
 
-            // create infowindow content
+            // get infowindow content
             function getInfoWindowContent() {
                 infowindow.marker = attraction.marker;
-                // four square stuff
                 setVenueContent();
-                //infowindow.setContent('<div>' + attraction.marker.title + '</div>');
                 infowindow.open(map, attraction.marker);
                 infowindow.addListener('closeclick', function() {
                     infowindow.setMarker = null;
-                    // vm.venueInfo('');
                 });
             };
+
+            // create infowindow string
+            function getInfoString(){
+                var contentArray = [];
+
+                var foursquareString = '<article class="infowindow-text">' +
+                            '<h1><a class="venue-link" href=' + attraction.url + '>' +
+                            attraction.name + '</a></h1>' +
+                            '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
+                            '<address>' + attraction.address + ', ' + attraction.postalCode + ' ' +
+                            attraction.city + '</address></div>' +
+                            '<div class="time-box"><i class="fa fa-clock-o" aria-hidden="true"></i>' +
+                            '<p> Today: ' + attraction.hours + '</p></div>' +
+                            '<div class="image-box"><img class="foursquare-img" src="foursquare.png"></div></article>';
+
+                var dataModelString = '<article class="infowindow-text">' +
+                            '<h1><a class="venue-link" href=' + attraction.url + '>' +
+                            attraction.name + '</a></h1>' +
+                            '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
+                            '<address>' + attraction.address + ', ' + attraction.postalCode + ' ' +
+                            attraction.city + '</address></div></article>';
+
+                contentArray.push(foursquareString, dataModelString);
+
+                            return contentArray;
+            }
 
             // update venue information in DOM
             function setVenueContent() {
@@ -90,6 +114,7 @@
                 var foursquareClientSecret = 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X';
                 var foursquareVersion = '20170801';
                 var foursquareURL_venue = 'https://api.foursquare.com/v2/venues/' + attraction.foursquareID;
+
                 $.ajax({
                     url: foursquareURL_venue,
                     dataType: "jsonp",
@@ -100,15 +125,19 @@
                         async: true
                     },
                     success: function(data){
-                        console.log(data.response);
-                        attraction.marker.title = data.response.venue.name;
-                        infowindow.setContent('<div>' + attraction.marker.title + '</div>');
-                        // var venue_street = data.response.venue.location.address;
-                        // var venue_postalCode = data.response.venue.location.postalCode;
-                        // var venue_address = venue_street + ", " + venue_postalCode;
-                        // vm.venueName(venue_name);
-                        // vm.venueAddress(venue_address);
-
+                        console.log(data.response.venue);
+                        attraction.url = data.response.venue.canonicalUrl + '?' + foursquareClientID;
+                        attraction.name = data.response.venue.name || attraction.name;
+                        attraction.address = data.response.venue.location.address || attraction.address;
+                        attraction.postalCode = data.response.venue.location.postalCode || attract.postalCode;
+                        attraction.city = data.response.venue.location.city || attraction.city;
+                        attraction.hours = data.response.venue.popular.timeframes[0].open[0].renderedTime || 'Unknown';
+                        var html = getInfoString()[0];
+                        infowindow.setContent(html);
+                    },
+                    error: function(){
+                        var html = getInfoString()[1]
+                        infowindow.setContent(html);
                     }
                 });
             }
@@ -129,49 +158,22 @@
     }
 
     /*
-     * Ajax call
-     */
-
-    // var getFourSquareData = function() {
-    //     var foursquareClientID = 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0';
-    //     var foursquareClientSecret = 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X';
-    //     var foursquareVersion = '20170801';
-    //     var foursquareURL_venue = 'https://api.foursquare.com/v2/venues/' + '4c8df3ce58668cfa9a96cdec';
-    //     $.ajax({
-    //         url: foursquareURL_venue,
-    //         dataType: "jsonp",
-    //         data: {
-    //             client_id: 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0',
-    //             client_secret: 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X',
-    //             v: '20170801',
-    //             async: true
-    //         },
-    //         success: function(data) {
-    //             console.log('foursquare');
-    //             console.log(data.response);
-    //             //attraction.marker.title = data.response.venue.name;
-    //             // var venue_street = data.response.venue.location.address;
-    //             // var venue_postalCode = data.response.venue.location.postalCode;
-    //             // var venue_address = venue_street + ", " + venue_postalCode;
-    //             // vm.venueName(venue_name);
-    //             // vm.venueAddress(venue_address);
-
-    //         }
-    //     });
-    // }
-
-    /*
      * Attraction Class constructor
      * Gets properties from Model
      */
     var Attraction = function(data) {
-        this.name = ko.observable(data.name);
+        this.name = data.name;
         this.location = {
             lat: data.location.lat,
             lng: data.location.lng
         }
-        // this.marker = '';
+        this.address = '';
+        this.postalCode = '';
+        this.city = 'Vienna';
+        this.phone = '';
+        this.url = '';
         this.foursquareID = data.foursquareID;
+        this.marker = '';
     };
 
     // Section class
@@ -199,7 +201,7 @@
             new Section("Map", "mapView")
         ]);
 
-        // set click target as current chosen object/tab
+        //set click target as current chosen object/tab
         self.activateSection = function(tab) {
             self.chosenTab(tab);
             self.resizeMap();
@@ -248,17 +250,12 @@
         // Google dependent
         this.filteredItems = ko.computed(this._filter, this);
 
-        //foursquare stuff
-        this.venueName = ko.observable();
-        this.venueAddress = ko.observable();
-
-
     };
 
     ViewModel.prototype._filter = function() {
         var filterText = this.searchTerm().toLowerCase();
         return ko.utils.arrayFilter(this.attractionList(), function(attraction) {
-            if (attraction.name().toLowerCase().indexOf(filterText) >= 0) {
+            if (attraction.name.toLowerCase().indexOf(filterText) >= 0) {
                 if (attraction.marker) {
                     attraction.marker.setVisible(true);
                 }
