@@ -69,9 +69,12 @@
         }
 
         // switch to map
-        self.openMap = function(attraction) {
+        // click callback function
+        // attraction is the current object
+        self.openMap = function(venue) {
+                var marker = venue.marker;
                 self.activateSection(self.sections()[1]);
-                google.maps.event.trigger(attraction.marker, 'click');
+                google.maps.event.trigger(marker, 'click');
         }
 
         // Map Elem observable
@@ -99,8 +102,36 @@
         // make input field an observable
         this.searchTerm = ko.observable('');
 
+        // if the filteredItems has one match
+        // let user open map and activate marker on enter key press
+        this.returnSearchItem = function(formElement){
+            var venue;
+            var totalVenues = self.filteredItems().length;
+            // if only one item is found
+            if (totalVenues === 1){
+                venue = self.filteredItems()[0];
+                self.openMap(venue);
+            }
+            // if the array has several items that match
+            // search criteria and the search word is
+            // also the name of a venue
+            else if (totalVenues > 1){
+                self.filteredItems().forEach(function(venue){
+                    var filter = self.searchTerm().toLowerCase();
+                    if(filter === venue.name.toLowerCase()){
+                        self.openMap(venue);
+                    }
+                });
+            }
+            // if the array doesn't return any matches
+            // TODO: Show no matches message
+            else {
+                return null;
+            }
+
+        }
+
         //return search results for listings in an array
-        // Google dependent
         this.filteredItems = ko.computed(this._filter, this);
 
     };

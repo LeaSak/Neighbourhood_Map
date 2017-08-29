@@ -84,7 +84,7 @@ function populateInfoWindow(marker, infowindow, venue) {
     var foursquareClientID = 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0';
     var foursquareClientSecret = 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X';
     var foursquareVersion = '20170801';
-    var foursquareURL_venue = 'https://api.foursquare.com/v2/venues/' + marker.id;
+    var foursquareURL_venue = 'https://api.foursquare.com/v2/venues/' + venue.foursquareID;
 
     $.ajax({
         url: foursquareURL_venue,

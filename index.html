@@ -24,7 +24,7 @@
             <article id="venueView" class="content" data-bind="css: {reveal: showContent($element.id)}">
                 <div class="row">
                     <div class="col-one">
-                        <form class="search-container">
+                        <form class="search-container" data-bind="submit:returnSearchItem">
                             <input class="search" data-bind="textInput: searchTerm" type="search" id="searchbar" placeholder="Search" aria-label="Search through site content" autocomplete="off">
                             <label class="label" for="searchbar">Filter destinations by name</label>
                         </form>

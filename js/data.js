@@ -26,6 +26,17 @@
                 postalCode: '1060',
                 url: 'https://www.haus-des-meeres.at/en/Home.htm',
                 foursquareID: '4b7cf243f964a52002aa2fe3'
+            },
+            {
+                name: 'Haus',// should be called Haus der Musik
+                location: {
+                    lat: 48.203776,
+                    lng: 16.373158
+                },
+                address: 'Seilerstätte 30',
+                postalCode: '1010',
+                url: 'http://www.hausdermusik.com/',
+                foursquareID: '4b058895f964a520f5ce22e3'
             }
             // {
             //     name: 'Zoom Kindermuseum',
