@@ -74,7 +74,7 @@ function toggleBounce(marker) {
 function populateInfoWindow(marker, infowindow, venue) {
     'use strict';
     infowindow.marker = marker;
-    //infowindow.setContent('loading');
+    infowindow.setContent('');
     infowindow.open(map, marker);
     infowindow.addListener('closeclick', function() {
         infowindow.setMarker = null;

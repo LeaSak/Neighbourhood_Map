@@ -24,11 +24,11 @@
                 },
                 address: 'Fritz-Grünbaum-Platz 1',
                 postalCode: '1060',
-                url: 'https://www.haus-des-meeres.at/en/Home.htm',
+                url: 'https://www.haus-des-meeres.at/',
                 foursquareID: '4b7cf243f964a52002aa2fe3'
             },
             {
-                name: 'Haus',// should be called Haus der Musik
+                name: 'Haus der Musik',// should be called Haus der Musik
                 location: {
                     lat: 48.203776,
                     lng: 16.373158

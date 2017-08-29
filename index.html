@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-one">
                         <form class="search-container" data-bind="submit:returnSearchItem">
-                            <input class="search" data-bind="textInput: searchTerm" type="search" id="searchbar" placeholder="Search" aria-label="Search through site content" autocomplete="off">
+                            <input class="search" data-bind="textInput: searchTerm" type="text" id="searchbar" placeholder="Search" aria-label="Search through site content" autocomplete="off">
                             <label class="label" for="searchbar">Filter destinations by name</label>
                         </form>
                     </div>
@@ -34,8 +34,7 @@
                     <div class="col-one">
                         <ul data-bind="foreach: $root.filteredItems" class="venue-list">
                             <li class="list-item box">
-                                <!-- https://stackoverflow.com/questions/18970244/conditional-click-binding-with-knockout -->
-                                <a data-bind="text:$data.name, click: $root.mapElem() ? $root.openMap : null, attr:{href: $root.getUrl($data)}"></a>
+                                <a data-bind="text:$data.name, click: $root.openMap, attr:{href: $data.url}"></a>
                             </li>
                         </ul>
                     </div>
@@ -47,7 +46,7 @@
                     <div class="col-one map-col">
                         <div id="map" data-bind="visible:$root.mapElem">
                         </div>
-                        <div class="error-box box" data-bind="visible:!$root.mapElem()">
+                        <div class="error-box box" data-bind="visible: !$root.mapElem()">
                             <h1>Google Maps cannot be loaded</h1>
                             <p>In the meantime, feel free to click the venues tab for venue details.</p>
                         </div>

@@ -40,6 +40,7 @@
         self.chosenTab = ko.observable();
 
         //observable array of sections
+        // sections contain main content
         self.sections = ko.observableArray([
             new Section("Venues", "venueView"),
             new Section("Map", "mapView")
@@ -64,6 +65,8 @@
             }
         }
 
+        // this returns true or false if
+        // conditions are met or not met.
         self.showContent = function(element) {
             return element === self.chosenTab().id;
         }
@@ -71,20 +74,21 @@
         // switch to map
         // click callback function
         // attraction is the current object
+        // return true to enable default link
+        // behaviour when map is disabled
         self.openMap = function(venue) {
-                var marker = venue.marker;
-                self.activateSection(self.sections()[1]);
-                google.maps.event.trigger(marker, 'click');
+                if(self.mapElem()){
+                    var marker = venue.marker;
+                    self.activateSection(self.sections()[1]);
+                    google.maps.event.trigger(marker, 'click');
+                } else {
+                    return true;
+                }
         }
 
         // Map Elem observable
         // Used for error messaging;
         self.mapElem = ko.observable(true);
-
-        // set link according to map elem status
-        self.getUrl = function(venue) {
-            return self.mapElem() ? '#' : venue.url();
-        }
 
         /*
          * Content View Model
@@ -100,24 +104,14 @@
 
         // if the filteredItems has one match
         // let user open map and activate marker on enter key press
-        this.returnSearchItem = function(formElement){
+        this.returnSearchItem = function(formElement) {
             var venue;
             var totalVenues = self.filteredItems().length;
             // if only one item is found
-            if (totalVenues === 1){
+            if (totalVenues === 1) {
                 venue = self.filteredItems()[0];
+                console.log(venue);
                 self.openMap(venue);
-            }
-            // if the array has several items that match
-            // search criteria and the search word is
-            // also the name of a venue
-            else if (totalVenues > 1){
-                self.filteredItems().forEach(function(venue){
-                    var filter = self.searchTerm().toLowerCase();
-                    if(filter === venue.name.toLowerCase()){
-                        self.openMap(venue);
-                    }
-                });
             }
             // if the array doesn't return any matches
             // TODO: Show no matches message
