@@ -47,7 +47,7 @@
                     <div class="col-one map-col">
                         <div id="map" data-bind="visible:$root.mapElem">
                         </div>
-                        <div class="error-box box" data-bind="visible:$root.errorMessage">
+                        <div class="error-box box" data-bind="visible:!$root.mapElem()">
                             <h1>Google Maps cannot be loaded</h1>
                             <p>In the meantime, feel free to click the venues tab for venue details.</p>
                         </div>

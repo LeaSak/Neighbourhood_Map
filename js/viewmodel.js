@@ -81,10 +81,6 @@
         // Used for error messaging;
         self.mapElem = ko.observable(true);
 
-        self.errorMessage = function() {
-            return (self.mapElem() === false) ? true : false;
-        }
-
         // set link according to map elem status
         self.getUrl = function(venue) {
             return self.mapElem() ? '#' : venue.url();
