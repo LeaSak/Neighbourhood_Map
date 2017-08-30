@@ -24,11 +24,7 @@ function initMap() {
     renderMarkers(app.vm.filteredItems());
 
     //resize map, tell it to redraw when window is resized
-    google.maps.event.addDomListener(window, 'resize', function() {
-        var center = map.getCenter();
-        google.maps.event.trigger(map, 'resize');
-        map.setCenter(center);
-    });
+    google.maps.event.addDomListener(window, 'resize', app.vm.resizeMap);
 
     // apply bindings to ViewModel
     // var vm = new app.ViewModel();

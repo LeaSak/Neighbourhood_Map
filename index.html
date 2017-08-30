@@ -13,8 +13,8 @@
     <main class="container">
         <nav>
             <ul class="tab-list" data-bind="foreach: sections">
-                <li class="tab" data-bind="css: {active: $data == $root.chosenTab()}">
-                    <a data-bind="attr: {href:'#'}, text: name, click: $root.activateSection"></a>
+                <li class="tab" data-bind="css: {active: $data == $root.chosenSection()}">
+                    <a data-bind="attr: {href:'#' + id}, text: name, click: $root.activateSection"></a>
                 </li>
             </ul>
         </nav>

@@ -26,6 +26,7 @@
         this.id = id;
     };
 
+
     /*
      * View Model of App
      *
@@ -35,9 +36,8 @@
         var self = this;
 
         /*
-         * UI View Model
+         * Sections
          */
-        self.chosenTab = ko.observable();
 
         //observable array of sections
         // sections contain main content
@@ -46,52 +46,58 @@
             new Section("Map", "mapView")
         ]);
 
+        // Keeps track of which section is selected
         // Set Map as default open tab
-        self.chosenTab(self.sections()[1]);
+        self.chosenSection = ko.observable(self.sections()[1]);
 
-        //set click target as current chosen object/tab
-        self.activateSection = function(tab) {
-            self.chosenTab(tab);
-            self.resizeMap();
-        };
-
-        // if map div is resized while hidden,
-        // map needs to be resized.
-        self.resizeMap = function() {
-            if (self.chosenTab().id === "mapView") {
-                var center = map.getCenter();
-                google.maps.event.trigger(map, "resize");
-                map.setCenter(center);
+        // set click target as current chosen section
+        // trigger resize map if condition met
+        self.activateSection = function(section) {
+            self.chosenSection(section);
+            if (self.chosenSection().name === "Map"){
+                self.resizeMap();
             }
-        }
+        };
 
         // this returns true or false if
         // conditions are met or not met.
         self.showContent = function(element) {
-            return element === self.chosenTab().id;
+            return element === self.chosenSection().id;
         }
 
-        // switch to map
-        // click callback function
-        // attraction is the current object
-        // return true to enable default link
-        // behaviour when map is disabled
-        self.openMap = function(venue) {
-                if(self.mapElem()){
-                    var marker = venue.marker;
-                    self.activateSection(self.sections()[1]);
-                    google.maps.event.trigger(marker, 'click');
-                } else {
-                    return true;
-                }
-        }
+
+        /*
+         * Map View
+         */
 
         // Map Elem observable
         // Used for error messaging;
         self.mapElem = ko.observable(true);
 
+        // switch to map
+        // click callback function
+        // return true to enable default link
+        // behaviour when map is disabled
+        self.openMap = function(venue) {
+            if(self.mapElem()){
+                var marker = venue.marker;
+                self.activateSection(self.sections()[1]);
+                google.maps.event.trigger(marker, 'click');
+            } else {
+                return true;
+            }
+        }
+
+        // if map div is resized while hidden,
+        // map needs to be resized.
+        self.resizeMap = function() {
+            var center = map.getCenter();
+            google.maps.event.trigger(map, "resize");
+            map.setCenter(center);
+        }
+
         /*
-         * Content View Model
+         * Venue View
          */
 
         // Creates a ko observable array of location objects
