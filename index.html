@@ -34,7 +34,7 @@
                     <div class="col-one">
                         <ul data-bind="foreach: $root.filteredItems" class="venue-list">
                             <li class="list-item box">
-                                <a data-bind="text:$data.name, click: $root.openMap, attr:{href: $data.url}"></a>
+                                <a data-bind="text:name, click: $root.openMap"></a>
                             </li>
                         </ul>
                     </div>

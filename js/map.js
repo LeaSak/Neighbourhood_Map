@@ -20,15 +20,12 @@ function initMap() {
     infowindow = new google.maps.InfoWindow({
         maxWidth: 250
     });
+
     //Create markers
-    renderMarkers(app.vm.filteredItems());
+    renderMarkers(app.initiialPOI);
 
     //resize map, tell it to redraw when window is resized
     google.maps.event.addDomListener(window, 'resize', app.vm.resizeMap);
-
-    // apply bindings to ViewModel
-    // var vm = new app.ViewModel();
-    // ko.applyBindings(vm);
 }
 
 function renderMarkers(list) {
@@ -46,11 +43,13 @@ function renderMarkers(list) {
             animation: google.maps.Animation.DROP
         });
         venue.marker = marker;
+
+        // where to put this?
         bounds.extend(marker.position);
         map.fitBounds(bounds);
         marker.addListener('click', function() {
             toggleBounce(this);
-            populateInfoWindow(this, infowindow, venue);
+            //populateInfoWindow(this, infowindow, venue);
         });
     });
 }
