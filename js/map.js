@@ -4,7 +4,6 @@
 var map;
 var infowindow;
 
-
 function initMap() {
     'use strict';
     console.log("initMap");
@@ -14,24 +13,26 @@ function initMap() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(mapElem, {
         center: vienna,
-        zoom: 13
+        zoom: 13,
+        mapTypeControl: false
     });
+    // add a transit layer to map
+    var transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
     // Create one infowindow
     infowindow = new google.maps.InfoWindow({
-        maxWidth: 250
+        maxWidth: 300
     });
 
-    //Create markers
-    renderMarkers(app.initiialPOI);
+    //Create markers for each location
+    renderMarkers(app.vm.filteredItems());
 
     //resize map, tell it to redraw when window is resized
     google.maps.event.addDomListener(window, 'resize', app.vm.resizeMap);
 }
 
 function renderMarkers(list) {
-    // declare bounds of map
     'use strict';
-    var bounds = new google.maps.LatLngBounds();
     list.forEach(function(venue) {
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(
@@ -43,14 +44,12 @@ function renderMarkers(list) {
             animation: google.maps.Animation.DROP
         });
         venue.marker = marker;
-
-        // where to put this?
-        bounds.extend(marker.position);
-        map.fitBounds(bounds);
         marker.addListener('click', function() {
             toggleBounce(this);
-            //populateInfoWindow(this, infowindow, venue);
+            populateInfoWindow(this, infowindow, venue);
         });
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(marker.position);
     });
 }
 
@@ -69,7 +68,7 @@ function toggleBounce(marker) {
 function populateInfoWindow(marker, infowindow, venue) {
     'use strict';
     infowindow.marker = marker;
-    infowindow.setContent('');
+    infowindow.setContent('Fetching...');
     infowindow.open(map, marker);
     infowindow.addListener('closeclick', function() {
         infowindow.setMarker = null;
@@ -85,21 +84,22 @@ function populateInfoWindow(marker, infowindow, venue) {
         url: foursquareURL_venue,
         dataType: "jsonp",
         data: {
-            client_id: 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0',
-            client_secret: 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X',
+            client_id: foursquareClientID,
+            client_secret: foursquareClientSecret,
             v: '20170801',
-            async: true
-        },
-        success: function(data) {
-            var url = data.response.venue.canonicalUrl + '?' + foursquareClientID || venue.url();
-            var name = data.response.venue.name || venue.name;
-            var street = data.response.venue.location.address || venue.address;
-            var postalCode = data.response.venue.location.postalCode || venue.postalCode;
-            var city = data.response.venue.location.city || venue.city;
-            var hours = data.response.venue.popular.timeframes[0].open[0].renderedTime || 'Check website';
+        }
+    }).done(function(data){
+        var location = data.response.venue;
+        console.log(data.response);
+            var url = location.canonicalUrl ? venue.canonicalUrl + '?' + foursquareClientID : venue.url();
+            var name = location.name ? location.name : venue.name;
+            var street = location.location.address ? location.location.address : venue.address;
+            var postalCode = location.location.postalCode ? location.location.postalCode : venue.postalCode;
+            var city = location.location.city ? location.location.city : venue.city;
+            var hours = location.popular ? location.popular.timeframes[0].open[0].renderedTime : 'Check website';
             var foursquareString = '<article class="infowindow-text">' +
-                '<h1><a class="venue-link" href=' + url + '>' +
-                name + '</a></h1>' +
+                '<h2><a class="venue-link" href=' + url + '>' +
+                name + '</h2></a>' +
                 '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
                 '<address>' + street + ', ' + postalCode + ' ' +
                 city + '</address></div>' +
@@ -107,16 +107,13 @@ function populateInfoWindow(marker, infowindow, venue) {
                 '<p> Today: ' + hours + '</p></div>' +
                 '<div class="image-box"><img class="foursquare-img" src="foursquare.png"></div></article>';
             infowindow.setContent(foursquareString);
-        },
-        error: function() {
-            console.log(venue);
-            var htmlString = '<article class="infowindow-text">' +
-                '<h1><a class="venue-link" href=' + venue.url() + '>' + venue.name + '</a></h1>' +
+    }).fail(function(){
+        var htmlString = '<article class="infowindow-text">' +
+                '<h2><a class="venue-link" href=' + venue.url() + '>' + venue.name + '</a></h2>' +
                 '<div class="contact-box"><i class="fa fa-map-marker" aria-hidden="true"></i>' +
                 '<address>' + venue.address + ', ' + venue.postalCode + ' ' +
                 venue.city + '</address></div></article>';
             infowindow.setContent(htmlString);
-        }
     });
 }
 

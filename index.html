@@ -6,6 +6,7 @@
     <title>Neighbourhood Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -13,9 +14,7 @@
     <main class="container">
         <nav>
             <ul class="tab-list" data-bind="foreach: sections">
-                <li class="tab" data-bind="css: {active: $data == $root.chosenSection()}">
-                    <a data-bind="attr: {href:'#' + id}, text: name, click: $root.activateSection"></a>
-                </li>
+                <li id="search" class="tab" data-bind="css: {active: $data == $root.chosenSection()}, text:name, click:$root.activateSection"></li>
             </ul>
         </nav>
         <!-- Tab Content -->
@@ -25,8 +24,11 @@
                 <div class="row">
                     <div class="col-one">
                         <form class="search-container" data-bind="submit:returnSearchItem">
-                            <input class="search" data-bind="textInput: searchTerm" type="text" id="searchbar" placeholder="Search" aria-label="Search through site content" autocomplete="off">
-                            <label class="label" for="searchbar">Filter destinations by name</label>
+                            <div class="searchbar">
+                                <input class="search" data-bind="textInput: searchTerm" type="text" id="searchbar" placeholder="Search" aria-label="Search through site content" autocomplete="off">
+                                <i class="fa fa-times-circle" aria-hidden="true" data-bind="click:clearSearch, visible: $root.searchTerm() !== ''"></i>
+                            </div>
+                            <label class="label" for="searchbar" data-bind="text:searchMessage"></label>
                         </form>
                     </div>
                 </div>
@@ -34,7 +36,10 @@
                     <div class="col-one">
                         <ul data-bind="foreach: $root.filteredItems" class="venue-list">
                             <li class="list-item box">
-                                <a data-bind="text:name, click: $root.openMap"></a>
+                                <a class="title" data-bind="text:name, click: $root.openMap"></a>
+                                <div class="tag-box" data-bind="foreach:tag">
+                                    <span class="tag" data-bind="text:$data"></span>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -58,7 +63,7 @@
     <script src="http://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="js/data.js"></script>
-    <script src ="js/map.js"></script>
+    <script src="js/map.js"></script>
     <script src="js/viewmodel.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=initMap" onerror="mapError()"></script>
     <script src="https://use.fontawesome.com/be5de5c037.js"></script>
