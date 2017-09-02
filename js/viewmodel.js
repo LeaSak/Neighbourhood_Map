@@ -14,7 +14,7 @@
         this.address = data.address;
         this.postalCode = data.postalCode;
         this.city = 'Vienna';
-        this.hours = '';
+        this.hours = 'Check website';
         this.url = ko.observable(data.url);
         this.foursquareID = data.foursquareID;
         this.marker = "";
@@ -97,6 +97,84 @@
             map.setCenter(center);
         };
 
+        self.renderMarkers = function(list) {
+            list.forEach(function(venue) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(
+                        venue.location.lat,
+                        venue.location.lng),
+                    map: map,
+                    title: venue.name,
+                    id: venue.foursquareID,
+                    animation: google.maps.Animation.DROP
+                });
+                //assigning marker to venue property
+                venue.marker = marker;
+                marker.addListener('click', function() {
+                    self.toggleMarker(marker);
+                    self.populateInfowindow(marker, infowindow, venue);
+
+                });
+                //marker.addListener('click', fetchVenue.bind(null, marker, infowindow, venue), false);
+                var bounds = new google.maps.LatLngBounds();
+                bounds.extend(marker.position);
+            }, list);
+        }
+
+        self.toggleMarker = function(marker) {
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function() {
+                    marker.setAnimation(null);
+                }, 1500);
+            }
+        }
+
+        self.populateInfowindow = function(marker, infowindow, venue) {
+            infowindow.marker = marker;
+            infowindow.setContent('Fetching...');
+            infowindow.open(map, marker);
+            infowindow.addListener('closeclick', function() {
+                infowindow.setMarker = null;
+            });
+
+            self.getAJAXdata(venue).done(function(data) {
+                var location = data.response.venue;
+                var url = location.canonicalUrl ? location.canonicalUrl + '?' + data.client_id : venue.url();
+                var name = location.name ? location.name : venue.name;
+                var address = location.location.address ? location.location.address : venue.address;
+                var postalCode = location.location.postalCode ? location.location.postalCode : venue.postalCode;
+                var city = location.location.city ? location.location.city : venue.city;
+                var hours = location.popular ? location.popular.timeframes[0].open[0].renderedTime : venue.hours;
+                var htmlString = createContent(url, name, address, postalCode, city, hours)[1];
+                infowindow.setContent(htmlString);
+            });
+
+            self.getAJAXdata(venue).fail(function() {
+                var htmlString = createContent(venue.url(), venue.name, venue.address, venue.postalCode, venue.city, venue.hours)[0];
+                infowindow.setContent(htmlString);
+            });
+        }
+
+        self.getAJAXdata = function(venue) {
+            var foursquareClientID = 'V3SD0U1WAIJOPXUK4W2AR0DPZXUKFQQL5Y2FXKK4YO25FVX0';
+            var foursquareClientSecret = 'NEH1GYLAFDS2CL5DSBFRO3DENB55KPWAVJE5ERBWQ1MGLD0X';
+            var foursquareVersion = '20170801';
+            var foursquareURL_venue = 'https://api.foursquare.com/v2/venues/' + venue.foursquareID;
+
+            return $.ajax({
+                url: foursquareURL_venue,
+                dataType: "jsonp",
+                data: {
+                    client_id: foursquareClientID,
+                    client_secret: foursquareClientSecret,
+                    v: foursquareVersion,
+                }
+            });
+        }
+
         /*
          * Venue View
          */
@@ -126,8 +204,7 @@
             if (totalVenues === 1) {
                 venue = self.filteredItems()[0];
                 self.openMap(venue);
-            }
-            else {
+            } else {
                 return null;
             }
 
@@ -173,6 +250,7 @@
     // // Assign View Model to a variable
     app.vm = new ViewModel();
     ko.applyBindings(app.vm);
+
 
 
 })(window.app = window.app || {});
