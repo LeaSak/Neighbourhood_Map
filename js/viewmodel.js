@@ -1,5 +1,6 @@
 (function(app, undefined) {
     'use strict';
+    //TODO: Move classes to separate file
 
     /*
      * Attraction Class constructor
