@@ -2,7 +2,7 @@
     'use strict';
         /*
          * Stores data for Map Markers
-         * TODO: add to a separate file
+         * This is the model
          */
     app.initialPOI = [
             {

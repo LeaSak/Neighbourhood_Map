@@ -12,6 +12,7 @@
 
 <body>
     <main class="container">
+    <!-- Overall model - tabs -->
         <nav>
             <ul class="tab-list" data-bind="foreach: sections">
                 <li id="search" class="tab" data-bind="css: {active: $data == $root.chosenSection()}, text:name, click:$root.activateSection"></li>
@@ -36,7 +37,7 @@
                     <div class="col-one">
                         <ul data-bind="foreach: $root.filteredItems" class="venue-list">
                             <li class="list-item box">
-                                <a class="title" data-bind="text:name, click: $root.openMap"></a>
+                                <a class="title" data-bind="text:name, click: $root.showLocation"></a>
                                 <div class="tag-box" data-bind="foreach:tag">
                                     <span class="tag" data-bind="text:$data"></span>
                                 </div>
@@ -65,7 +66,7 @@
     <script src="js/data.js"></script>
     <script src="js/map.js"></script>
     <script src="js/viewmodel.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=initMap" onerror="mapError()"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=app.mm.init" onerror="mapView.mapError()"></script>
     <script src="https://use.fontawesome.com/be5de5c037.js"></script>
 </body>
 
