@@ -136,7 +136,7 @@
                 venue.city + '</address></div>' +
                 '<div class="time-box"><i class="fa fa-clock-o" aria-hidden="true"></i>' +
                 '<p> Today: ' + venue.hours + '</p></div></article>';
-            var foursquareString = htmlString + '<div class="image-box"><img class="foursquare-img" src="foursquare.png"></div>';
+            var foursquareString = htmlString + '<div class="image-box"><img class="foursquare-img" src="images/foursquare.png"></div>';
             return [htmlString, foursquareString];
         };
 
