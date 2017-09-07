@@ -6,7 +6,7 @@
          */
     app.initialPOI = [
             {
-                name: 'Diana bad',
+                name: 'Dianabad',
                 location: {
                     lat: 48.214209,
                     lng: 16.377812

@@ -13,31 +13,31 @@
 <body>
     <main class="container">
     <!-- Overall model - tabs -->
-        <nav>
+        <nav data-bind="with: sectionVM">
             <ul class="tab-list" data-bind="foreach: sections">
-                <li id="search" class="tab" data-bind="css: {active: $data == $root.chosenSection()}, text:name, click:$root.activateSection"></li>
+                <li id="search" class="tab" data-bind="css: {active: $data == $parent.chosenSection()}, text:name, click: $parent.activateSection"></li>
             </ul>
         </nav>
         <!-- Tab Content -->
         <section>
             <!-- Venue Content -->
-            <article id="venueView" class="content" data-bind="css: {reveal: showContent($element.id)}">
+            <article id="venueView" class="content" data-bind="css: {reveal: sectionVM.showContent($element.id)}">
                 <div class="row">
-                    <div class="col-one">
+                    <div class="col-one" data-bind="with: searchVM">
                         <form class="search-container" data-bind="submit:returnSearchItem">
                             <div class="searchbar">
                                 <input class="search" data-bind="textInput: searchTerm" type="text" id="searchbar" placeholder="Search" aria-label="Search through site content" autocomplete="off">
-                                <i class="fa fa-times-circle" aria-hidden="true" data-bind="click:clearSearch, visible: $root.searchTerm() !== ''"></i>
+                                <i class="fa fa-times-circle" aria-hidden="true" data-bind="click:clearSearch, visible: searchTerm() !== ''"></i>
                             </div>
                             <label class="label" for="searchbar" data-bind="text:searchMessage"></label>
                         </form>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-one">
-                        <ul data-bind="foreach: $root.filteredItems" class="venue-list">
+                    <div class="col-one" data-bind="with: searchVM">
+                        <ul data-bind="foreach: filteredItems" class="venue-list">
                             <li class="list-item box">
-                                <a class="title" data-bind="text:name, click: $root.showLocation"></a>
+                                <a class="title" data-bind="text:name, click: $root.venueVM.showLocation, attr:{href:url}"></a>
                                 <div class="tag-box" data-bind="foreach:tag">
                                     <span class="tag" data-bind="text:$data"></span>
                                 </div>
@@ -47,14 +47,14 @@
                 </div>
             </article>
             <!-- Map Content -->
-            <article id="mapView" class="content map-article" data-bind="css: {reveal: showContent($element.id)}">
+            <article id="mapView" class="content map-article" data-bind="css: {reveal: sectionVM.showContent($element.id)}">
                 <div class="row map-row">
-                    <div class="col-one map-col">
-                        <div id="map" data-bind="visible:$root.mapElem">
+                    <div class="col-one map-col" data-bind="with: $root.mapVM">
+                        <div id="map" data-bind="visible: mapElem">
                         </div>
-                        <div class="error-box box" data-bind="visible: !$root.mapElem()">
+                        <div class="error-box" data-bind="visible:!mapElem()">
                             <h1>Google Maps cannot be loaded</h1>
-                            <p>In the meantime, feel free to click the venues tab for venue details.</p>
+                            <p>In the meantime, feel free to take a peek at our selected venues by visiting the venues tab. Each listing links to the venue's website.</p>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
     <script src="js/data.js"></script>
     <script src="js/map.js"></script>
     <script src="js/viewmodel.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=app.mm.init" onerror="mapView.mapError()"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=app.vm.mapVM.init" onerror="app.vm.mapVM.mapError()"></script>
     <script src="https://use.fontawesome.com/be5de5c037.js"></script>
 </body>
 

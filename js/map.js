@@ -1,8 +1,9 @@
 (function(app, undefined) {
     'use strict';
 
-    var MapView = function() {
-        console.log('mapmodel');
+    // Map View Model
+    var MapVM = function() {
+        console.log('MapVM');
         var self = this;
         this.init = function() {
 
@@ -26,7 +27,7 @@
 
             //Create markers for each location
             // this could be moved outside of initMap callback
-            self.renderMarkers(app.vm.filteredItems());
+            self.renderMarkers(app.vm.searchVM.filteredItems());
 
             //resize map, tell it to redraw when window is resized
             google.maps.event.addDomListener(window, 'resize', self.resizeMap);
@@ -47,7 +48,6 @@
                 //assigning marker to venue property
                 venue.marker = marker;
                 marker.addListener('click', function() {
-                    console.log(self);
                     self.toggleBounceMarker(this);
                     self.populateInfowindow(this, self.infowindow, venue);
 
@@ -86,10 +86,12 @@
             }
         };
 
+        //redundant
         self.openInfoWindow = function(map, marker) {
             self.infowindow.open(self.map, marker);
         };
 
+        //redundant
         self.closeInfoWindow = function() {
             self.infowindow.close();
         };
@@ -146,7 +148,7 @@
         };
         // error callback for infowindow
         self.failCallback = function(venue) {
-            var htmlString = mapView.buildString(venue)[0];
+            var htmlString = self.buildString(venue)[0];
             self.infowindow.setContent(htmlString);
         };
 
@@ -180,11 +182,15 @@
             self.map.setCenter(center);
         };
 
-        self.mapError = function() {
-            app.vm.mapElem(false);
-        };
-    }
+        // Map Elem observable
+        // Used for error messaging;
+        self.mapElem = ko.observable(true);
 
-    app.mm = new MapView()
+        self.mapError = function() {
+            self.mapElem(false);
+        };
+
+    }
+    app.mapvm = new MapVM();
 
 })(window.app = window.app || {});

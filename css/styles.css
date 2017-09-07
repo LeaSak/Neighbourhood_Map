@@ -23,10 +23,13 @@ body {
     color: #352B13;
 }
 
-a {
+a,
+a:visited {
     text-decoration: none;
     padding: 1em;
+    color: #352B13;
 }
+
 
 ul {
     list-style: none;
@@ -289,11 +292,6 @@ address {
     margin: 0;
 }
 
-/*.image-box {
-    border-top: 1px solid;
-    padding-top: 10px;
-}*/
-
 .foursquare-img {
     width: 100%;
     max-width: 100%;
@@ -301,9 +299,12 @@ address {
 
 /*Error Box*/
 .error-box {
-    padding: 5em;
+    padding: 2em;
+    margin: 1.5em 1em;
     text-align: center;
     color: black;
+    border: 4px solid #4591af;
+    box-shadow: 5px 5px 0px 0px rgba(69, 145, 175, 1);
 }
 
 @media screen and (min-width: 400px) {
@@ -329,6 +330,10 @@ address {
         font-size: 1.4243em;
     }
 
+    .error-box {
+        padding: 6em;
+    }
+
 }
 
 @media screen and (min-width: 800px) {
@@ -345,7 +350,6 @@ address {
     .fa.fa-times-circle {
         font-size: 2.882em;
     }
-
 
     /*Venue List styles*/
 
@@ -365,9 +369,21 @@ address {
         border: 4px solid #4591af;
         box-shadow: 5px 5px 0px 0px rgba(69, 145, 175, 1);
     }
+
     .title {
     display: block;
     overflow-wrap: break-word;
     font-size: 1.266em;
+    }
+
+    /* Error box*/
+    .error-box {
+    padding: 5em 10em;
+    }
 }
+
+@media screen and (min-width: 1000px){
+    .error-box {
+        padding: 5em 15em;
+    }
 }
