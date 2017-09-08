@@ -38,8 +38,8 @@
                 <div class="row">
                     <div class="col-one" data-bind="with: searchVM">
                         <ul data-bind="foreach: filteredItems" class="venue-list">
-                            <li class="list-item box">
-                                <a class="title" data-bind="text:name, click: $root.venueVM.showLocation, attr:{href:url}"></a>
+                            <li class="list-item box" data-bind="click: $root.venueVM.showLocation">
+                                <a class="title" data-bind="text:name, attr:{href:url}"></a>
                                 <div class="tag-box" data-bind="foreach:tag">
                                     <span class="tag" data-bind="text:$data"></span>
                                 </div>
