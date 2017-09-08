@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <title>Neighbourhood Map</title>
     <meta name="viewport" content="initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
+    <!-- build:css css/styles.css-->
+    <link rel="stylesheet" href="../bower_components/normalize-css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
+    <!-- endbuild -->
 </head>
 
 <body>
     <main class="container">
-    <!-- Overall model - tabs -->
+        <!-- Tab Navigation -->
         <nav data-bind="with: sectionVM">
             <ul class="tab-list" data-bind="foreach: sections">
                 <li id="search" class="tab" data-bind="css: {active: $data == $parent.chosenSection()}, text:name, click: $parent.activateSection"></li>
@@ -61,16 +63,22 @@
             </article>
         </section>
     </main>
-    <script src="http://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <!-- build:js js/libs.js -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/knockout/dist/knockout.js"></script>
+    <!-- endbuild -->
+    <!-- Asnyc load Font Awesome -->
+    <script src="https://use.fontawesome.com/be5de5c037.js"></script>
+    <!-- build:js js/app.js -->
     <script src="js/data.js"></script>
     <script src="js/viewmodels/map.js"></script>
     <script src="js/viewmodels/section.js"></script>
     <script src="js/viewmodels/venue.js"></script>
     <script src="js/viewmodels/search.js"></script>
     <script src="js/viewmodels/viewmodel.js"></script>
+    <!-- endbuild -->
+    <!-- Asnyc Google Map request -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8oKS2QngD-5FlY_uc9gIz-Lb0wggu_6Y&callback=app.vm.mapVM.init" onerror="app.vm.mapVM.mapError()"></script>
-    <script src="https://use.fontawesome.com/be5de5c037.js"></script>
 </body>
 
 </html>

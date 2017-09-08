@@ -258,7 +258,9 @@ section,
 
 .contact-box {
     border-top: 1px solid;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-align: center;
     align-items: center;
     padding-top: 10px;
     padding-bottom: 5px;
@@ -269,7 +271,9 @@ address {
 }
 
 .time-box {
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-align: center;
     align-items: center;
     border-bottom: 1px solid;
     padding-top: 5px;
@@ -354,8 +358,11 @@ address {
     /*Venue List styles*/
 
     .venue-list {
+        display: -ms-flexbox;
         display: flex;
+        -ms-flex-direction: row;
         flex-direction: row;
+        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     }
 

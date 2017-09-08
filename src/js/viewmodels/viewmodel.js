@@ -12,12 +12,14 @@
 
     // create an instance of parent view model
     app.vm = new ViewModel();
+    //ko.applyBindings(app.vm);
 
     // When Document is ready
     // apply bindings
     $(function() {
         console.log('DOM Content Loaded');
         ko.applyBindings(app.vm);
+
     });
 
 

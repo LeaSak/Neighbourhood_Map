@@ -1,0 +1,22 @@
+{
+  "name": "neighbourhood_map",
+  "description": "Udacity FEND Project 5",
+  "main": "index.html",
+  "authors": [
+    "Lea-Ann Sakmann"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/LeaSak/Neighbourhood_Map",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "^7.0.0",
+    "knockout": "^3.4.2",
+    "jquery": "^3.2.1"
+  }
+}

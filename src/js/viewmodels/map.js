@@ -20,13 +20,11 @@
             self.renderTransitLayer(self.map);
 
             // Create one infowindow
-            // this could be moved outside of the initMap callback
             self.infowindow = new google.maps.InfoWindow({
                 maxWidth: 300
             });
 
             //Create markers for each location
-            // this could be moved outside of initMap callback
             self.renderMarkers(app.vm.searchVM.filteredItems());
 
             //resize map, tell it to redraw when window is resized
@@ -60,7 +58,7 @@
 
         self.renderTransitLayer = function(map) {
             self.transitLayer = new google.maps.TransitLayer();
-            self.transitLayer.setMap(self.map);
+            self.transitLayer.setMap(map);
         };
 
         self.toggleBounceMarker = function(marker) {
@@ -190,7 +188,7 @@
             self.mapElem(false);
         };
 
-    }
+    };
     app.mapvm = new MapVM();
 
 })(window.app = window.app || {});
