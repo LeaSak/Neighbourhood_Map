@@ -104,7 +104,7 @@
             {
                 name: 'Dschungel Vienna',
                 location: {
-                    lat: 48202419,
+                    lat: 48.202419,
                     lng: 16.360220
                 },
                 address:'Museumsplatz 1',

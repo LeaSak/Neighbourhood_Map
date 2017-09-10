@@ -105,7 +105,7 @@ section,
     background: #e5e5de;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    transition: background-color, 1s;
+    transition: background-color, 500ms;
 }
 
 

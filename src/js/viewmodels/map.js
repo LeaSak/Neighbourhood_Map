@@ -5,7 +5,7 @@
     var MapVM = function() {
         console.log('MapVM');
         var self = this;
-        this.init = function() {
+        self.init = function() {
 
             self.mapDiv = document.getElementById('map');
             //create google map and append it to the page
