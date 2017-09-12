@@ -3,7 +3,7 @@
 
     /**
      * @description Custom JQuery FadeIn/FadeOut Binding
-     * http://knockoutjs.com/documentation/custom-bindings.html
+     * http://learn.knockoutjs.com/#/?tutorial=custombindings
      */
     ko.bindingHandlers.fadeVisible = {
         init: function(element, valueAccessor) {
@@ -29,6 +29,7 @@
     /**
      * @constructor Section View Model
      * @description Tab Functions
+     * http://learn.knockoutjs.com/#/?tutorial=webmail
      */
     var SectionVM = function() {
         var self = this;

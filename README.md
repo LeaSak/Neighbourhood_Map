@@ -7,6 +7,7 @@ This is project five in Udacity's Front-End Web Development Nanodegree. The aim 
 * Wet weather entertainment options for children in Vienna, Austria.
 * Filter by name search field with enter key functionality.
 * A Google Map with animated Google Map Markers and Infowindows for each venue retrieved asynchronously from the **Google Maps API**.
+* A Google Map Transit Layer showing the underground transit map in Vienna.
 * Infowindow content fetched asynchronously from the **Foursquare API**.
 * Responsive Design built with **Knockout.js**. All application components can be used on mobile, tablet and on desktop.
 * Error Handling - If a response error occurs from either the Foursquare API or Google Maps API, the app still provides basic information about the destinations via external links or hard-coded data and the search filter also functions.
