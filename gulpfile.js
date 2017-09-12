@@ -49,14 +49,14 @@ gulp.task('buildHTML', ['minifyImages'], function(){
 gulp.task('minifyHTML', ['buildHTML'], function() {
     return gulp.src(paths.html, { cwd: bases.dist })
         .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(gulp.dest(bases.dist))
+        .pipe(gulp.dest(bases.dist));
 });
 
 // Compress and copy image
 gulp.task('minifyImages', function(){
     return gulp.src(paths.assets, {cwd: bases.src})
     .pipe(imagemin())
-    .pipe(gulp.dest(bases.dist + '/images/'))
+    .pipe(gulp.dest(bases.dist + '/images/'));
 });
 
 
