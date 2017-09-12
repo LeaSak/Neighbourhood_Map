@@ -46,6 +46,7 @@ h1 {
 }
 
 
+
 /*
  * Grid
  */
@@ -70,12 +71,13 @@ h1 {
 }
 
 
+
 /*
  * Content styles
  */
 
 
-/* for map to display */
+/* Needed for map to display */
 
 section,
 .map-article,
@@ -84,16 +86,12 @@ section,
     height: 100%;
 }
 
-/*Only if map marker is selected*/
-/*.map-row {
-        height: 80%;
-    }*/
-
 #map {
     height: 100%;
 }
 
-/*Tab Styles*/
+
+/* Tab Styles */
 
 .tab-list {
     padding: 1em 0;
@@ -109,6 +107,7 @@ section,
 }
 
 
+
 /* Active tab class*/
 
 .active {
@@ -117,7 +116,9 @@ section,
     border-top-left-radius: 10px;
 }
 
-/* Folder Content Styles*/
+
+/* Folder Content Styles */
+
 .content {
     padding: 1em;
     background-color: #fffdf8;
@@ -130,15 +131,16 @@ section,
     display: block;
 }
 
-/* Search styles*/
+
+/* Search styles */
 
 #search:first-child:after {
     content: '\f002';
-   font-family: FontAwesome;
-   font-weight: normal;
-   font-style: normal;
-   margin:0 0 0 1em;
-   color: #4591af;
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    margin: 0 0 0 1em;
+    color: #4591af;
 }
 
 .search-container {
@@ -152,7 +154,6 @@ section,
     border-bottom: 2px solid;
     padding: 0.5em 0;
     width: 100%;
-
 }
 
 .search,
@@ -198,7 +199,9 @@ section,
     color: #ce8b04;
 }
 
-/* Venue List styles*/
+
+/* Venue List styles */
+
 .list-item {
     width: calc(100% - 2em);
 }
@@ -235,7 +238,8 @@ section,
 }
 
 
-/* Infowindow styling*/
+
+/* Infowindow styling */
 
 .infowindow-text {
     width: 100%;
@@ -280,19 +284,19 @@ address {
     padding-bottom: 10px;
 }
 
-.contact-box> i {
+.fa.fa-map-marker {
     padding-right: 10px;
     font-size: 16px;
-    color:#e54125;
+    color: #e54125;
 }
 
-.time-box>i {
+.fa.fa-clock-o {
     font-size: 12px;
     padding-right: 8px;
     color: #4591af;
 }
 
-.time-box> p {
+.hours {
     margin: 0;
 }
 
@@ -301,7 +305,9 @@ address {
     max-width: 100%;
 }
 
-/*Error Box*/
+
+/* Error Box */
+
 .error-box {
     padding: 2em;
     margin: 1.5em 1em;
@@ -323,7 +329,7 @@ address {
         font-size: 16px;
     }
 
-    /* Search styles*/
+    /* Search styles */
     .search-container {
         margin: 6em auto 3em auto;
         width: 60%;
@@ -337,7 +343,6 @@ address {
     .error-box {
         padding: 6em;
     }
-
 }
 
 @media screen and (min-width: 800px) {
@@ -347,7 +352,7 @@ address {
         margin: 10em auto 6em auto;
         width: 60%;
     }
-    .search{
+    .search {
         font-size: 3.653em;
     }
 
@@ -355,8 +360,7 @@ address {
         font-size: 2.882em;
     }
 
-    /*Venue List styles*/
-
+    /* Venue List styles */
     .venue-list {
         display: -ms-flexbox;
         display: flex;
@@ -378,18 +382,19 @@ address {
     }
 
     .title {
-    display: block;
-    overflow-wrap: break-word;
-    font-size: 1.266em;
+        display: block;
+        overflow-wrap: break-word;
+        font-size: 1.266em;
     }
 
-    /* Error box*/
+    /* Error box */
     .error-box {
-    padding: 5em 10em;
+        padding: 5em 10em;
     }
 }
 
-@media screen and (min-width: 1000px){
+@media screen and (min-width: 1000px) {
+    /* Error box */
     .error-box {
         padding: 5em 15em;
     }

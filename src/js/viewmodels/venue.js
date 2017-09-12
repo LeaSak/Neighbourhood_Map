@@ -1,9 +1,7 @@
 (function(app, undefined) {
     'use strict';
-
-    /*
-     * Attraction Class constructor
-     * Gets properties from Model
+    /**
+     * @consructor Attraction Class
      */
     var Attraction = function(data) {
         this.name = data.name;
@@ -22,37 +20,43 @@
     };
 
 
-    /*
-     * Venue View Model of App
-     *
-     *
+    /**
+     * @consructor Venue ViewModel
+     * @description All venue related properties and methods
      */
 
     var VenueVM = function() {
         var self = this;
-        console.log('VenueVM');
-        // Creates a ko observable array of location objects
+
+        /**
+         * @description Creates an array of Attraction instances from data.js
+         */
         self.attractionList = ko.observableArray(ko.utils.arrayMap(app.initialPOI, function(attraction) {
             return new Attraction(attraction);
         }));
-        // One line of google
-        // switch to map
-        // click callback function
-        // return true to enable default link
-        // behaviour when map is not available
+
+        /**
+         * @description Shows Location on Map
+         * @param {object} venue
+         */
         self.showLocation = function(venue) {
+            // If map is appended
+            // Go to Map Tab
+            // Trigger marker click event
             if (app.mapvm.mapElem()) {
                 var marker = venue.marker;
                 app.sectionvm.activateSection(app.sectionvm.sections()[1]);
                 google.maps.event.trigger(marker, 'click');
             } else {
+                // Return true to enable default link
+                // Behaviour when map is not appended.
                 return true;
             }
         };
 
     };
 
-    // create an instance of venueVM
+    // Create an instance of venueVM
     app.venuevm = new VenueVM();
 
 })(window.app = window.app || {});

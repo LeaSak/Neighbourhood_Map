@@ -23,7 +23,7 @@
         <!-- Tab Content -->
         <section>
             <!-- Venue Content -->
-            <article id="venueView" class="content" data-bind="fadeVisible:sectionVM.showContent($element.id)">
+            <div id="venueView" class="content" data-bind="fadeVisible:sectionVM.showContent($element.id)">
                 <div class="row">
                     <div class="col-one" data-bind="with: searchVM">
                         <form class="search-container" data-bind="submit:returnSearchItem">
@@ -47,9 +47,9 @@
                         </ul>
                     </div>
                 </div>
-            </article>
+            </div>
             <!-- Map Content -->
-            <article id="mapView" class="content map-article" data-bind="fadeVisible:sectionVM.showContent($element.id)">
+            <div id="mapView" class="content map-article" data-bind="fadeVisible:sectionVM.showContent($element.id)">
                 <div class="row map-row">
                     <div class="col-one map-col" data-bind="with: $root.mapVM">
                         <div id="map" data-bind="visible: mapElem">
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-            </article>
+            </div>
         </section>
     </main>
     <!-- build:js js/libs.js -->

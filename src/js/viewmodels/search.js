@@ -1,34 +1,44 @@
 (function(app, undefined) {
     'use strict';
 
-    /*
-     * Search View Model of App
-     *
+    /**
+     * @description Search View Model
+     * @constructor
      */
     var SearchVM = function() {
         var self = this;
-        console.log('SearchVM');
 
-        // make input field an observable
+        // Make input field an observable
         self.searchTerm = ko.observable('');
 
+
+        /**
+         * @description Clear search field.
+         *
+         */
         self.clearSearch = function() {
             return self.searchTerm('');
         };
 
-        // return search results for listings in an array
-        // search is based on venue name
-        // if map is shown, hide or show markers, infowindow
+        /**
+         * @description Filters locations by name
+         *
+         */
         self.filteredItems = ko.computed(function() {
             var filterText = self.searchTerm().toLowerCase();
             return ko.utils.arrayFilter(app.venuevm.attractionList(), function(venue) {
+
+                // If filter text matches venue name
                 if (venue.name.toLowerCase().indexOf(filterText) >= 0) {
+
+                    // If map is visible, show marker
                     if (app.mapvm.mapElem()) {
                         app.mapvm.showMarker(venue.marker);
                     }
-
                     return true;
                 } else {
+
+                    // If map is visible, close infowindow and hide marker
                     if (app.mapvm.mapElem()) {
                         app.mapvm.infowindow.close();
                         app.mapvm.hideMarker(venue.marker);
@@ -39,8 +49,10 @@
 
         }, self);
 
-        // if the filteredItems has one match
-        // let user open map and activate marker on enter key press
+        /**
+         * @description Opens Map View and animates Location
+         * on enter key press if one match is found.
+         */
         self.returnSearchItem = function() {
             var venue;
             var totalVenues = self.filteredItems().length;
@@ -53,18 +65,22 @@
 
         };
 
-        // make search label observable
+        // Make search label observable
         self.searchLabel = ko.observable('');
 
-        // this computes the search label text
+        /**
+         * @description Determines input label text
+         */
         self.searchMessage = ko.computed(function() {
             return self.filteredItems().length === 0 ? 'Sorry, no matches. Try again.' : 'Filter destinations by venue name';
         }, self);
 
-        // clear search input button
+        // Clear search button observable
         self.cancelBtn = ko.observable();
 
-        // show or hide clear search button
+        /**
+         * @description Show or hide clear search button
+         */
         self.showBtn = ko.computed(function() {
             if (self.searchTerm() === '') {
                 self.cancelBtn(false);
@@ -75,7 +91,7 @@
 
     };
 
-    // create an instance of search view model
+    // Create an instance of SearchVM
     app.searchvm = new SearchVM();
 
 })(window.app = window.app || {});
