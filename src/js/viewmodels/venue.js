@@ -1,7 +1,7 @@
 (function(app, undefined) {
     'use strict';
     /**
-     * @consructor Attraction Class
+     * @class Attraction Class
      */
     var Attraction = function(data) {
         this.name = data.name;
@@ -21,7 +21,7 @@
 
 
     /**
-     * @consructor Venue ViewModel
+     * @class Venue ViewModel
      * @description All venue related properties and methods
      */
 

@@ -3,7 +3,7 @@
 
     /**
      * @description Search View Model
-     * @constructor
+     * @class
      */
     var SearchVM = function() {
         var self = this;

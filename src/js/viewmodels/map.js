@@ -3,7 +3,7 @@
 
     /**
      * @description All Google Map methods and properties
-     * @constructor
+     * @class
      */
     var MapVM = function() {
         var self = this;
@@ -77,7 +77,7 @@
             self.transitLayer.setMap(map);
         };
 
-        /*
+        /**
          * @description Animates marker
          * @param {object} marker
          */
@@ -237,7 +237,7 @@
             self.infowindow.addListener('closeclick', self.closeInfoWindow);
         };
 
-        /*
+        /**
          * @description Make map responsive.
          */
         self.resizeMap = function() {

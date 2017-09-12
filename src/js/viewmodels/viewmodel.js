@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @consructor ViewModel Class
+     * @class ViewModel Class
      * @description A parent view model to house all view models
      */
     var ViewModel = function(){

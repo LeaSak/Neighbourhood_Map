@@ -19,7 +19,7 @@
     };
 
     /**
-     * @constructor Section Class
+     * @class Section Class
      */
     var Section = function(name, id) {
         this.name = name;
@@ -27,7 +27,7 @@
     };
 
     /**
-     * @constructor Section View Model
+     * @class Section View Model
      * @description Tab Functions
      * http://learn.knockoutjs.com/#/?tutorial=webmail
      */
