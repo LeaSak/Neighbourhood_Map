@@ -26,7 +26,7 @@
 
             // Create one infowindow
             self.infowindow = new google.maps.InfoWindow({
-                maxWidth: 300
+                maxWidth: 180
             });
 
             // Create markers for each location
