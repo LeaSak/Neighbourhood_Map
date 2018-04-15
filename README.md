@@ -1,6 +1,7 @@
 # FEND Neighbourhood Map Project
 
 This is project five in Udacity's Front-End Web Development Nanodegree. The aim of this project was to develop a single page application using **Knockout.js**, **Google Maps API** and another **third-party API**. The app should display map markers for at least 5 destinations within a chosen neighbourhood, a filter, and further information on the locations via infowindows or DOM elements.
+For a live version of this project, see: [https://leasak.github.io/Neighbourhood_Map/](https://leasak.github.io/Neighbourhood_Map/)
 
 ### Project Features
 ------
@@ -22,7 +23,7 @@ First go to the master branch of the project and get a copy of the repository by
 https://github.com/LeaSak/Neighbourhood_Map
 ```
 
-To view the app, navigate to the project, go to the project's root directory, and open **index.html** in your browser. So far it's only been tested in Google Chrome.
+To view the app, navigate to the project, go to the project's root directory, and open **index.html** in your browser. So far it's only been tested in Google Chrome. You'll need to run this site using a local server, e.g., Python's SimpleHTTPServer.
 
 All development files are located in the **src** directory.
 
