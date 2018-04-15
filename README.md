@@ -22,7 +22,7 @@ First go to the master branch of the project and get a copy of the repository by
 https://github.com/LeaSak/Neighbourhood_Map
 ```
 
-To view the app, navigate to the project, go to the project's **dist** directory, and open **index.html** in your browser. So far it's only been tested in Google Chrome.
+To view the app, navigate to the project, go to the project's root directory, and open **index.html** in your browser. So far it's only been tested in Google Chrome.
 
 All development files are located in the **src** directory.
 
@@ -65,7 +65,7 @@ The default gulp task includes watch tasks, so when you make any changes to the 
 For more information, please inspect **gulpfile.js**
 
 #### Step 4: Inspect
-Navigate to the **dist** directory and open **index.html** in your browser.
+Navigate to the root directory and open **index.html** in your browser.
 
 ## Feedback
 ------
