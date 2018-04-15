@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 // Working directories
 var bases = {
     src: 'src/',
-    dist: 'dist/'
+    dist: './'
 };
 
 // Paths to files
@@ -56,7 +56,7 @@ gulp.task('minifyHTML', ['buildHTML'], function() {
 gulp.task('minifyImages', function(){
     return gulp.src(paths.assets, {cwd: bases.src})
     .pipe(imagemin())
-    .pipe(gulp.dest(bases.dist + '/images/'));
+    .pipe(gulp.dest(bases.dist + 'images/'));
 });
 
 
